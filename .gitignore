@@ -1,0 +1,6 @@
+*~
+*#
+dist
+cabal-dev
+state
+.DS_STORE

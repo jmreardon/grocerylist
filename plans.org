@@ -1,0 +1,10 @@
+* Development Goals
+  - application to simply making grocery list
+  - automatically note purchase intervals
+  - allow multiple lists
+  - organize items into templates/groups?/something?
+
+
+* Initial Development
+** TODO design database schema
+** TODO 

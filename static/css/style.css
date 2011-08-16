@@ -1,0 +1,333 @@
+﻿/**
+ * HTML5 ✰ Boilerplate
+ */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after { content: ""; content: none; }
+ins { background-color: #ff9; color: #000; text-decoration: none; }
+mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
+del { text-decoration: line-through; }
+abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
+table { border-collapse: collapse; border-spacing: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+input, select { vertical-align: middle; }
+body { font:13px/1.231 sans-serif; *font-size:small; }
+select, input, textarea, button { font:100% sans-serif;  }
+pre, code, kbd, samp { font-family: monospace, sans-serif; }
+html { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; } 
+a:hover, a:active { outline: none; }
+ul, ol { margin-left: 2em; }
+ol { list-style-type: decimal; }
+nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
+small { font-size: 85%; }
+strong, th { font-weight: bold; }
+td { vertical-align: top; }
+sub, sup { font-size: 75%; line-height: 0; position: relative; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+pre {
+  white-space: pre; white-space: pre-wrap; word-wrap: break-word;
+  padding: 15px;
+}
+textarea { overflow: auto; } 
+.iem7 legend { margin-left: -7px; }
+input[type="radio"] { vertical-align: text-bottom; }
+input[type="checkbox"] { vertical-align: bottom; }
+.iem7 input[type="checkbox"] { vertical-align: baseline; }
+label, input[type="button"], input[type="submit"], input[type="image"], button { cursor: pointer; }
+button, input, select, textarea { margin: 0; }
+input:valid, textarea:valid   {  }
+input:invalid, textarea:invalid {
+   border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red;
+}
+.no-boxshadow input:invalid, .no-boxshadow textarea:invalid { background-color: #f0dddd; }
+::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
+::selection { background:#FF5E99; color:#fff; text-shadow: none; }
+a:link { -webkit-tap-highlight-color: #FF5E99; }
+button {  width: auto; overflow: visible; }
+.iem7 img { -ms-interpolation-mode: bicubic; }
+body, select, input, textarea {
+  color: #444;
+}
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+a, a:active, a:visited { color: #607890; }
+a:hover { color: #036; }
+.nocallout {-webkit-touch-callout: none;}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+textarea.contenteditable {-webkit-appearance: none;}
+.gifhidden {position: absolute; left: -100%;}
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.hidden { display: none; visibility: hidden; }
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+.invisible { visibility: hidden; }
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+
+/* Primary Styles for mobile
+   Author: Justin Reardon
+*/
+
+body {
+    background-color: #eeeef0;
+}
+
+h1 {
+    font-size: 180%;
+    margin-bottom: 0.2em;
+}
+
+h2 {
+    margin-top: 0.7em;
+    font-size: 160%;
+}
+
+h3 {
+    margin-top: 1.5em;
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+a.button-link {
+    color: inherit;
+}
+
+#container {
+    margin: auto;
+    width: 310px;
+    padding: 5px;
+    font-size: 120%;
+}
+
+#main, #sidebar {
+    width: 310px;
+    float: left;
+}
+
+#main {
+    padding-right: 20px;
+}
+
+div.button-apart {
+    display: block;
+    float: right;
+}
+
+label, input {
+    display: block;
+}
+form {
+    margin-top: 1em;
+}
+
+input {
+    margin-bottom: 1em;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 300px;
+}
+
+div.panel, div.empty-message {
+    margin: 0.7em 0 1em 0;
+}
+
+form {
+    margin: 0.7em 0 2em 0;
+}
+
+div.panel {
+    border: 1px solid #bbb;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+div.empty-message {
+    font-style: italic;
+}
+    
+
+ul.digestive-error-list {
+    list-style-type: none;
+    margin-left: 0px;
+    margin-bottom: 1em;
+}
+
+li.digestive-error, .login_required {
+    color: red;
+}
+
+div.center-button {
+    text-align: center;
+}
+
+/* icons sprite users */
+a.uncheck-link, 
+a.check-link, 
+a.list-add-link, 
+a.list-remove-link, 
+ul.tag-list > li
+ {
+    background-image: url(../img/icons.png);
+    background-size: 120px auto;
+}
+
+/* item list */
+
+div.panel > ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+div.panel > ul > li {
+    padding: 6px 4px 4px 4px;
+    min-height: 28px;
+    line-height: 26px;
+}
+
+div.panel > ul > li:nth-child(even) {
+    background-color: #ededed;
+}
+
+div.panel > ul > li:nth-child(even):last-child {
+    margin-bottom: 10px;
+}
+
+div.check-uncheck-link, div.add-remove-link, div.loading {
+    float: right;
+}
+
+a.item-link, div.loading {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position-y: 5px;
+}
+
+ul#item-list div.loading {
+    background-image: url(../img/ajax-loader.gif);
+    background-size: 20px;
+}
+
+a.uncheck-link {
+    background-position-x: -32px;
+}
+
+a.check-link {
+    background-position-x: 0px;
+}
+
+a.list-add-link {
+    background-position-x: -64px;
+}
+
+a.list-remove-link {
+    background-position-x: -96px;
+}
+
+
+/* tag bar */
+
+ul.tag-list > li {
+    display: block;
+    background-repeat: no-repeat;
+    text-decoration: none;
+    padding: 6px 4px 4px 26px !important; 
+    background-position-x: 4px;
+}
+
+ul#additional-tags > li {
+    background-position-y: -118px;
+}
+
+ul.tag-list > li > a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul.tag-list > li {
+    color: #607890;
+    cursor: pointer;
+}
+
+ul.tag-list > li:hover {
+    color: #036;
+}
+
+ul#present-tags > li {
+    background-position-y: -54px;
+}
+
+ul#additional-tags > li:hover {
+    background-position-y: -86px;
+}
+
+ul#present-tags > li:hover {
+    background-position-y: -22px;
+}
+
+ul.tag-list > li.choice-on {
+    background-position-y: -182px;
+    cursor: inherit;
+}
+
+ul.tag-list > li.choice-on:hover {
+    color: #607890;
+}
+
+ul.tag-list > li.choice-off {
+    background-position-y: -246px;
+}
+
+ul.tag-list > li.choice-off:hover {
+    background-position-y: -214px;
+}
+
+/* CSS MQ */
+
+@media only screen and (min-width: 650px) {
+    #container {
+        width: 640px;
+    }
+
+
+}/*/mediaquery*/
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+}

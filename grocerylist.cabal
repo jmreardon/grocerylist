@@ -1,0 +1,65 @@
+Name:                grocerylist
+Version:             0.1
+
+Synopsis:            
+
+Description:         
+
+License:             GPL-3
+License-file:        LICENSE
+
+Author:              Justin Reardon
+Maintainer:          me@jmreardon.com
+Copyright:           
+
+Category:            Web
+
+Build-type:          Simple
+
+-- Extra files to be distributed with the package, such as examples or
+-- a README.
+Extra-source-files:  
+
+Cabal-version:       >=1.2
+
+
+Executable grocerylist
+  Hs-Source-Dirs: src
+  ghc-options:    -threaded -Wall
+  Main-Is:        Main.hs
+  Build-depends:  base >= 4.0 && < 5,
+                  containers >= 0.4 && < 1,
+                  ixset >= 1 && < 2,
+                  uuid >= 1.2 && < 2,
+                  pwstore-fast >= 2.2 && < 3,
+                  time >= 1.2 && < 2, 
+                  bytestring >= 0.9 && < 1,
+                  text >= 0.11 && < 1,
+                  safecopy >= 0.5 && < 1,
+                  acid-state >= 0.4 && < 1,
+                  mtl >= 2 && < 3,
+                  web-routes >= 0.25 && < 1,
+                  web-routes-boomerang >= 0.25 && < 1,
+                  web-routes-th >= 0.20 && < 1,
+                  web-routes-happstack >= 0.22 && < 1,
+                  boomerang >= 1.0 && < 2,
+                  happstack-server >= 6 && < 7,
+                  unix >= 2.4 && < 3,
+                  happstack-heist >= 6.0 && < 7,
+                  heist >= 0.5.2 && < 1,
+                  hint >= 0.3.1 && < 1,
+                  blaze-html >= 0.4 && < 1,
+                  blaze-builder >= 0.3 && < 1,
+                  xmlhtml >= 0.1.5 && < 1,
+                  digestive-functors-blaze >= 0.1.0.2 && < 1,
+                  digestive-functors-happstack >= 0.1 && < 1,
+                  digestive-functors >= 0.1 && < 1,
+                  random >= 1 && < 2,
+                  email-validate >= 0.2.6 && < 1,
+                  applicative-extras >= 0.1.8 && < 1,
+                  hslogger >= 1.0.2,
+                  heist-async >= 0.4 && < 1,
+                  split >= 0.1.4.1 && < 1
+                  
+  
+  
