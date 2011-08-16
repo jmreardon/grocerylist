@@ -2,7 +2,6 @@
   <bind tag="pageTitle">Items</bind>
   <bind tag="sidebar">
     <itemList>
-      <hasItems>
         <apply template="tag-bar" />
         <h3>Needed Within</h3>
         <div class="panel">
@@ -30,7 +29,6 @@
             </div>
           </div>
         </filtersOff>
-      </hasItems>
     </itemList>
   </bind>
   <addItemForm>
