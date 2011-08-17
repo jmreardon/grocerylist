@@ -19,14 +19,14 @@
         </div>
         <filtersOn>
           <apply template="center-button">
-            <bind tag="title">Clear All Filters</bind>
+            <bind tag="title">Clear Filters</bind>
             <bind tag="link"><routeItems /></bind>
           </apply>
         </filtersOn>
         <filtersOff>
           <div class="center-button">
             <div class="button disabled">
-              <span>Clear Purchases</span>
+              <span>Clear Filters</span>
             </div>
           </div>
         </filtersOff>

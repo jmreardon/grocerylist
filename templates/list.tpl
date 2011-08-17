@@ -6,14 +6,14 @@
         <apply template="tag-bar" />
         <activeTags>
           <apply template="center-button">
-            <bind tag="title">Clear All Filters</bind>
+            <bind tag="title">Clear Filters</bind>
             <bind tag="link"><routeList /></bind>
           </apply>
         </activeTags>
         <noActiveTags>
           <div class="center-button">
             <div class="button disabled">
-              <span>Clear Purchases</span>
+              <span>Clear Filters</span>
             </div>
           </div>
         </noActiveTags>
