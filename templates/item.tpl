@@ -1,6 +1,6 @@
 <div-async name="item-$(itemId)">
   <span class="item-name"><itemName /></span>
-  <span class="item-tags"><itemTags /></span>
+  <span class="item-tag-list"><itemTagsList/></span>
   <div class="add-remove-link" id="item-link-$(itemId)">
     <itemOnList>
       <a-async href="$(removeLink)" data-loading-div="#item-link-$(itemId)" class="list-remove-link item-link"> </a-async>

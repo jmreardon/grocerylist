@@ -29,7 +29,7 @@
         </ul>
       </div>
       <apply template="center-button">
-        <bind tag="title">Clear Purchases</bind>
+        <bind tag="title">Clear All Purchases</bind>
         <bind tag="link"><clearRoute /></bind>
       </apply>
     </hasItems>

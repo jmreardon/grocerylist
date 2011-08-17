@@ -4,6 +4,7 @@ module Main where
 import Config
 import GroceryList.Datatypes
 import GroceryList.SiteMap
+import GroceryList.Templates
 
 import GroceryList.Login
 import GroceryList.Signup
@@ -39,18 +40,20 @@ main = do args <- getArgs
 runApp :: Config -> IO ()
 runApp (Config templateDir httpPort baseUrl) = do
   updateGlobalLogger "" (setLevel DEBUG)
-  templates <- initTemplateState templateDir
-  sess      <- initSessionDatabase
-  info      <- initGroceryDatabase
-  tid       <- forkIO $ simpleHTTP (nullConf { port = httpPort }) $ 
-               decodeBody (defaultBodyPolicy "/tmp/" 0 4096 4096) >>
-               msum [ mapServerPartT 
-                      (unpackGLServer (GLS templates sess info Nothing)) 
-                      (implSite baseUrl "" site)
-                    , dir "default.appcache" $ serveFile (asContentType "text/cache-manifest") "static/default.appcache"
-                    , serveDirectory DisableBrowsing [] "static" 
-                    ]
-  cid       <- forkIO $ checkpointState sess info
+  templates    <- initGroceryTemplateState templateDir
+  sptTemplates <- initTemplateState templateDir
+  sess         <- initSessionDatabase
+  info         <- initGroceryDatabase
+  tid          <- forkIO $ simpleHTTP (nullConf { port = httpPort }) $ 
+                  decodeBody (defaultBodyPolicy "/tmp/" 0 4096 4096) >>
+                  msum [ mapServerPartT 
+                         (unpackGLServer (GLS templates sess info Nothing)) 
+                         (implSite baseUrl "" site)
+                       , dir "offline" $ render' "offline" sptTemplates >>= ok . toResponse
+                       , dir "default.appcache" $ serveFile (asContentType "text/cache-manifest") "static/default.appcache"
+                       , serveDirectory DisableBrowsing [] "static" 
+                       ]
+  cid          <- forkIO $ checkpointState sess info
   waitForTermination
   putStrLn "Shutting Down"
   killThread tid
@@ -60,17 +63,21 @@ runApp (Config templateDir httpPort baseUrl) = do
 
 checkpointState :: AcidState SessionDatabase -> AcidState GroceryDatabase -> IO ()
 checkpointState sess info = forever $ do
-  threadDelay (1000000 * 60 * 5) -- yield for 5 minutes
+  threadDelay (1000000 * 60 * 60) -- yield for 5 minutes
   createCheckpoint sess
   createCheckpoint info
 
 
-initTemplateState :: String -> IO (TemplateState GroceryServer)
+initTemplateState :: MonadIO m => String -> IO (TemplateState m)
 initTemplateState d = do 
   templates <- loadTemplates d (emptyTemplateState d)
   case templates of
     Left err  -> fail ("Could not load templates: " ++ err)
-    Right tpl -> return $ bindSplices splices tpl
+    Right tpl -> return tpl
+
+
+initGroceryTemplateState :: String -> IO (TemplateState GroceryServer)
+initGroceryTemplateState d = initTemplateState d >>= return . bindSplices splices
     
 splices :: [(Text, Splice GroceryServer)]
 splices = [ ("loggedIn",      loggedInSplice)

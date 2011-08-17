@@ -126,7 +126,6 @@ addItemLinks (item, onList) = do
            , ("itemOffList", if onList
                              then return []
                              else runChildrenWithText [("addLink", pack addUrl)])
-           , ("itemTags",    textSplice . pack . intercalate ", " . map unTag . S.toList  . itemTags $ item)
            ]
   
 nextPurchaseTime :: POSIXTime -> [Purchase] -> POSIXTime
@@ -149,14 +148,15 @@ renderItem s item = do
     
 renderItemSplices :: [(Text, Splice GroceryServer)] -> Item -> [(Text, Splice GroceryServer)]
 renderItemSplices splices item = 
-  [ ("itemId",   textSplice . pack . show . getId . itemId $ item)
-  , ("itemName", textSplice . pack . unName . itemName $ item)
-  , ("itemNoTags", if S.null . itemTags $ item
-                   then runChildren
-                                     else return [])
-  , ("itemTags", if S.null . itemTags $ item                    
-                 then return []
-                 else runChildrenWith [("tag", itemTagSplice item)])
+  [ ("itemId",      textSplice . pack . show . getId . itemId $ item)
+  , ("itemName",    textSplice . pack . unName . itemName $ item)
+  , ("itemTagList", textSplice . pack . intercalate ", " . map unTag . S.toList  . itemTags $ item)
+  , ("itemNoTags",  if S.null . itemTags $ item
+                    then runChildren
+                    else return [])
+  , ("itemTags",    if S.null . itemTags $ item                    
+                    then return []
+                    else runChildrenWith [("tag", itemTagSplice item)])
   ] ++ splices
   
 itemTagSplice :: Item -> Splice GroceryServer

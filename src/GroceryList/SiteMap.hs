@@ -35,20 +35,21 @@ $(derivePrinterParsers ''SiteMap)
 
 sitemap :: Router SiteMap
 sitemap = rHome
-          <> lit "signup"      . rSignup
-          <> lit "login"       . rLogin
-          <> lit "logout"      . rLogout
-          <> lit "list"        . rGroceryList </> rList anyString
-          <> lit "clear-list" . rClear </> rList anyString
-          <> lit "items"       . rItems </>
-          (lit "any" . rNothing <> lit "weeks-" . rJust . int ) </>
-          rList anyString
-          <> lit "ajax" </> (lit "check" . rCheck </> itemIdRouter
-                             <> lit "uncheck" . rUncheck </> itemIdRouter
-                             <> lit "list" </> (lit "add" .       rListAdd    </> itemIdRouter
-                                                <> lit "remove" . rListRemove </> itemIdRouter)
-                            )
-          
+          <> lit "app" </> (
+            lit "signup"      . rSignup
+            <> lit "login"       . rLogin
+            <> lit "logout"      . rLogout
+            <> lit "list"        . rGroceryList </> rList anyString
+            <> lit "clear-list" . rClear </> rList anyString
+            <> lit "items"       . rItems </>
+            (lit "any" . rNothing <> lit "weeks-" . rJust . int ) </>
+            rList anyString
+            <> lit "ajax" </> (lit "check" . rCheck </> itemIdRouter
+                               <> lit "uncheck" . rUncheck </> itemIdRouter
+                               <> lit "list" </> (lit "add" .       rListAdd    </> itemIdRouter
+                                                  <> lit "remove" . rListRemove </> itemIdRouter)
+                              )
+            )
 itemIdRouter :: Router ItemId
 itemIdRouter = xmaph (ItemId . fromIntegral) (Just . fromIntegral . getId) integer
           

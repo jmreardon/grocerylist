@@ -100,7 +100,8 @@ body {
     background-color: #eeeef0;
 }
 
-header {
+.offline-error {
+    text-align: center;
 }
 
 h1 {
@@ -205,6 +206,10 @@ ul.tag-list > li
 }
 
 /* item list */
+
+.item-tag-list {
+    display: none;
+}
 
 div.panel > ul {
     list-style-type: none;
