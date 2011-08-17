@@ -35,6 +35,7 @@ $(derivePrinterParsers ''SiteMap)
 
 sitemap :: Router SiteMap
 sitemap = rHome
+          <> lit "app" . rHome
           <> lit "app" </> (
             lit "signup"      . rSignup
             <> lit "login"       . rLogin

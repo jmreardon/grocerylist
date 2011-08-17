@@ -38,9 +38,12 @@ sessionCookie :: String
 sessionCookie = "session"
 
 loginPage :: GroceryServer Response
-loginPage =  msum [ methodM POST >> processLogin
-                  , showLoginPage
-                  ]
+loginPage =  do loggedIn <- isLoggedIn
+                if loggedIn 
+                  then seeOtherURL (GroceryList []) 
+                  else msum [ methodM POST >> processLogin
+                            , showLoginPage
+                            ]
             
 logoutPage :: GroceryServer Response
 logoutPage = expireCookie sessionCookie >> seeOtherURL Home
@@ -48,8 +51,7 @@ logoutPage = expireCookie sessionCookie >> seeOtherURL Home
 processLogin :: GroceryServer Response
 processLogin = processForm loginForm "login" showLoginPage $ 
                \(LoginForm email _) -> startSession email >> 
-                                       showURL Home >>= 
-                                       flip seeOther (toResponse ("" :: String))
+                                       seeOtherURL (GroceryList [])
                     
 startSession :: String -> GroceryServer ()
 startSession email = do

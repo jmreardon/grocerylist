@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="/default.appcache">
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -18,6 +18,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
   <script src="/js/libs/modernizr-custom.js"></script>
   <script src="/js/jquery.uniform.min.js" type="text/javascript"></script>
+  <script src="/js/mylibs/helper.js" type="text/javascript"></script>
   <activate-async/>
 
   <script type="text/javascript">

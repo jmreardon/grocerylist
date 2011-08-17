@@ -1,18 +1,24 @@
 CACHE MANIFEST
-# version 2
+# version 3
 CACHE:
-css/
-js/libs/jquery-1.5.1.min.js
-js/libs/modernizr-custom.js
-js/libs/respond.min.js
-js/mylibs/helper.js
-img/
+/css/style.css
+/css/style.css~
+/css/uniform.aristo.css
+
+/js/libs/modernizr-custom.js
+/js/libs/respond.min.js
+/js/mylibs/helper.js
+/js/jquery.uniform.min.js
+/js/mylibs/helper.js
+
+/img/ajax-loader.gif
+/img/bg-input-focus.png
+/img/bg-input.png
+/img/icons.png
+/img/sprite-aristo.png
+
 http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js
 http://www.google-analytics.com/ga.js
 
 NETWORK:
 /app/*
-
-FALLBACK:
-
-/app/* offline
