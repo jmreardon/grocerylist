@@ -134,6 +134,13 @@ a.button-link {
     font-size: 120%;
 }
 
+#container:before {
+    content: url("/img/ajax-loder.gif");
+    width:0;
+    height:0;
+    visibility:hidden;
+}
+
 #main, #sidebar {
     width: 310px;
     float: left;
