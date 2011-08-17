@@ -41,7 +41,6 @@ runApp :: Config -> IO ()
 runApp (Config templateDir httpPort baseUrl) = do
   updateGlobalLogger "" (setLevel DEBUG)
   templates    <- initGroceryTemplateState templateDir
-  sptTemplates <- initTemplateState templateDir
   sess         <- initSessionDatabase
   info         <- initGroceryDatabase
   tid          <- forkIO $ simpleHTTP (nullConf { port = httpPort }) $ 
@@ -49,7 +48,6 @@ runApp (Config templateDir httpPort baseUrl) = do
                   msum [ mapServerPartT 
                          (unpackGLServer (GLS templates sess info Nothing)) 
                          (implSite baseUrl "" site)
-                       , dir "offline" $ render' "offline" sptTemplates >>= ok . toResponse
                        , dir "default.appcache" $ serveFile (asContentType "text/cache-manifest") "static/default.appcache"
                        , serveDirectory DisableBrowsing [] "static" 
                        ]
