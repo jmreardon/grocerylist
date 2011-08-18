@@ -8,7 +8,7 @@
   <meta name="author" content="">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=320px, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <!--<link rel="apple-touch-startup-image" href="img/l/splash.png">-->

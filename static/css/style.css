@@ -218,6 +218,13 @@ ul.tag-list > li
     display: none;
 }
 
+.item-last-purchase {
+    font-style: italic;
+    color: #888;
+    float: right;
+    margin-right: 1em;
+}
+
 div.panel > ul {
     list-style-type: none;
     margin: 0;
@@ -238,7 +245,7 @@ div.panel > ul > li:nth-child(even):last-child {
 }
 
 div.check-uncheck-link, div.add-remove-link, div.loading {
-    float: right;
+    float: left;
 }
 
 a.item-link, div.loading {

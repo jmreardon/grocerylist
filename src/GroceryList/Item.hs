@@ -130,7 +130,7 @@ addItemLinks (item, onList) = do
   
 nextPurchaseTime :: POSIXTime -> [Purchase] -> POSIXTime
 nextPurchaseTime time []  = time
-nextPurchaseTime _ [Purchase pTime] = pTime + posixDayLength * 7
+nextPurchaseTime _ [Purchase pTime] = pTime + posixDayLength * 8
 nextPurchaseTime time purchases = purchaseTime (head purchases) + offset
   where offset  = snd . head $ diffs
         recents = take 6 . map purchaseTime $ purchases
@@ -157,7 +157,23 @@ renderItemSplices splices item =
   , ("itemTags",    if S.null . itemTags $ item                    
                     then return []
                     else runChildrenWith [("tag", itemTagSplice item)])
+  , ("nextPurchase", fuzzyTimeSplice item)
   ] ++ splices
+  
+fuzzyTimeSplice :: Item -> Splice GroceryServer
+fuzzyTimeSplice item = do curr       <- liftIO getPOSIXTime
+                          textSplice . pack $ fuzzyTime item curr
+                          
+fuzzyTime :: Item -> POSIXTime -> String
+fuzzyTime item time = selectMessage $ (nextPurchaseTime time (itemPurchases item) - time) / posixDayLength / 7
+  where selectMessage x | x < 0     = "overdue"
+                        | x <= 1/7  = "today"
+                        | x <= 2/7  = "tomorrow"
+                        | x <= 1    = "this week"
+                        | x < 2     = "next week"
+                        | otherwise = show (floor x :: Int) ++ " weeks"
+  
+  
   
 itemTagSplice :: Item -> Splice GroceryServer
 itemTagSplice = tagsSplice [] . reverse . map unTag . S.toAscList . itemTags
