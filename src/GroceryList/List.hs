@@ -67,9 +67,8 @@ listPage tags sess = let sortedTags = sort tags
 
 showListPage :: [String] -> USession -> GroceryServer Response
 showListPage tags sess = do 
-  db       <- asks glsDatabase
-  user     <- getUserFromSess db sess
-  items    <- query' db GetItemDatabase
+  user     <- getUserFromSess sess
+  items    <- doQuery GetItemDatabase
   clearUrl <- showURL $ Clear tags
   let tagSet  = S.fromList . map Tag $ tags
       theList = M.toList .

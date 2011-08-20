@@ -28,6 +28,13 @@
             <bind tag="link"><routeLogout /></bind>
           </apply>
         </div>
+        <div class="button-right">
+          <apply template="button">
+            <bind tag="title"><img src="/img/account.png" width="16px" height="16px" /></bind>
+            <bind tag="titleMsg">Account</bind>
+            <bind tag="link"><routeAccount /></bind>
+          </apply>
+        </div>
       </loggedIn>
     </nav>
   </bind>

@@ -34,10 +34,13 @@ processForm :: HappstackForm GroceryServer Html BlazeFormHtml a ->
 processForm form identifier errorPage resultPage =
   eitherForm form identifier happstackEnvironment >>= 
   either (const errorPage) resultPage
-                              
+  
 formSplice :: HappstackForm GroceryServer Html BlazeFormHtml a -> String -> SiteMap -> Splice GroceryServer
-formSplice form identifier route = 
-  do v <- lift $ msum [ methodM POST >> renderForm happstackEnvironment
+formSplice = formSplice' True
+                              
+formSplice' :: Bool -> HappstackForm GroceryServer Html BlazeFormHtml a -> String -> SiteMap -> Splice GroceryServer
+formSplice' renderErrors form identifier route = 
+  do v <- lift $ msum [ guard renderErrors >> methodM POST >> renderForm happstackEnvironment
                       , viewForm form identifier]
      url  <- lift $ showURL route
      let (renderedForm, encType) = renderFormHtml v

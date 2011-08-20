@@ -4,6 +4,7 @@ module GroceryList.SiteMap (SiteMap(..), site, GroceryServer, unpackGLServer, GL
 import GroceryList.Home
 import GroceryList.Login
 import GroceryList.Signup
+import GroceryList.Account
 import GroceryList.List
 import GroceryList.Item
 import GroceryList.Datatypes
@@ -37,12 +38,13 @@ sitemap :: Router SiteMap
 sitemap = rHome
           <> lit "app" . rHome
           <> lit "app" </> (
-            lit "signup"      . rSignup
-            <> lit "login"       . rLogin
-            <> lit "logout"      . rLogout
-            <> lit "list"        . rGroceryList </> rList anyString
+            lit "signup"        . rSignup
+            <> lit "login"      . rLogin
+            <> lit "logout"     . rLogout
+            <> lit "account"    . rAccount
+            <> lit "list"       . rGroceryList </> rList anyString
             <> lit "clear-list" . rClear </> rList anyString
-            <> lit "items"       . rItems </>
+            <> lit "items"      . rItems </>
             (lit "any" . rNothing <> lit "weeks-" . rJust . int ) </>
             rList anyString
             <> lit "ajax" </> (lit "check" . rCheck </> itemIdRouter
@@ -59,6 +61,7 @@ route url = case url of
   Home             -> getUser Update homePage
   Signup           -> getUser Update signupPage
   Login            -> getUser Update loginPage
+  Account          -> reqUser Update accountPage
   GroceryList tags -> reqUser Update (listPage tags)
   Clear tags       -> reqUser Update (clearListAction tags)
   Items weeks tags -> reqUser Update (itemsPage weeks tags)
@@ -89,11 +92,15 @@ spliceItems = lift (showURL $ Items (Just 1) []) >>= textSplice . pack
 spliceLogout :: Splice GroceryServer
 spliceLogout = lift (showURL Logout) >>= textSplice . pack
 
+spliceAccount :: Splice GroceryServer
+spliceAccount = lift (showURL Account) >>= textSplice . pack
+
 pathSplices :: [(Text, Splice GroceryServer)]
-pathSplices = [ ("routeHome",   spliceHome)
-              , ("routeSignup", spliceSignup)
-              , ("routeLogin",  spliceLogin)
-              , ("routeLogout", spliceLogout)
-              , ("routeList",   spliceList)
-              , ("routeItems",  spliceItems)
+pathSplices = [ ("routeHome",    spliceHome)
+              , ("routeSignup",  spliceSignup)
+              , ("routeLogin",   spliceLogin)
+              , ("routeLogout",  spliceLogout)
+              , ("routeList",    spliceList)
+              , ("routeItems",   spliceItems)
+              , ("routeAccount", spliceAccount)
               ]

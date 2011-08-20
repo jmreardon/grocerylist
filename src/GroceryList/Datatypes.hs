@@ -36,6 +36,7 @@ data SiteMap = Home
              | Signup
              | Login
              | Logout
+             | Account
              | GroceryList [String]
              | Items (Maybe Int) [String]
              | Check ItemId
@@ -204,6 +205,17 @@ addUser email password getEmail = do
             modify $ \x -> x { gdUsers = insert newUser users }
             return $ Just newUser
             
+updateUser :: UserId -> Email -> ReceiveEmail -> Password -> Update GroceryDatabase Bool
+updateUser uid email announcements password = do
+  userResult <- liftM (getOne . (@= uid)) $ runQuery getUserDatabase
+  case userResult of
+    Just user -> let updatedUser = user { userEmail       = email
+                                        , userReceiveMail = announcements
+                                        , userPassword    = password
+                                        }
+                 in (modify $ \x -> x { gdUsers = updateIx uid updatedUser (gdUsers x) }) >> return True
+    Nothing   -> return False
+            
 addOrUpdateItem :: String -> [String] -> UserId -> Update GroceryDatabase Bool
 addOrUpdateItem name tags userId = do 
   user  <- liftM (getOne . (@= userId)) $ runQuery getUserDatabase
@@ -247,6 +259,7 @@ clearPurchases uid = do user <- liftM (getOne . (@= uid)) $ gets gdUsers
                               
 $(makeAcidic ''GroceryDatabase ['getUserDatabase, 
                                 'addUser, 
+                                'updateUser,
                                 'getItemDatabase, 
                                 'addOrUpdateItem, 
                                 'checkItem, 
@@ -287,3 +300,7 @@ doQuery :: (MethodState event ~ GroceryDatabase,
            event -> GroceryServer (EventResult event)
 doQuery act = do db <- asks glsDatabase
                  query' db act
+                 
+sendFlashMessage :: USession -> String -> GroceryServer ()
+sendFlashMessage sess msg = do db <- asks glsSessions
+                               update' db $ PushFlashMessage sess (FlashMessage msg)

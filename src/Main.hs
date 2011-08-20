@@ -83,6 +83,7 @@ splices = [ ("loggedIn",      loggedInSplice)
           , ("loginForm",     loginFormSplice)
           , ("loginRequired", loginRequiredSplice)
           , ("signupForm",    signupFormSplice)
+          , ("flashMessages", flashMessagesSplice)
           ] ++ pathSplices ++ heistAsyncSplices
 
 

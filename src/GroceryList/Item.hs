@@ -88,11 +88,10 @@ itemsPage weeks tags sess = let sortedTags = sort tags
                              
 showItemsPage :: Maybe Int -> [String] -> USession -> GroceryServer Response
 showItemsPage weeks tags sess = do
-  db    <- asks glsDatabase
-  user  <- getUserFromSess db sess
+  user  <- getUserFromSess sess
   time  <- liftIO $ getPOSIXTime
   items <- liftM (onList (userList user) . filterItems time weeks tags user) $ 
-           query' db GetItemDatabase
+           doQuery GetItemDatabase
   fmap (bindSplices [ ("itemList",    itemListSplice addItemLinks (Items weeks) tags items)
                     , ("addItemForm", addItemSplice weeks tags)
                     , ("weekChoice",  weekChoicesSplice tags weeks)

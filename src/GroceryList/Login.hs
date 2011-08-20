@@ -13,13 +13,14 @@ import Control.Monad.Error
 import Control.Monad.Reader
 import Crypto.PasswordStore
 import Data.Acid
-import Data.IxSet
+import qualified Data.Foldable as F (concat)
+import Data.IxSet hiding (null)
 import Data.Maybe
 import Data.Time.Clock.POSIX
 import System.Random
 import Data.Text (pack)
 import Data.Text.Encoding (encodeUtf8)
-import Data.UUID
+import Data.UUID hiding (null)
 import Happstack.Server       
 import Text.Templating.Heist
 import Text.Digestive
@@ -78,10 +79,10 @@ loginForm = (`validate` validLogin) $ (<++ errors) $ LoginForm
             <*> label "Password" ++> inputPassword
             
 validLogin :: Validator GroceryServer Html LoginForm
-validLogin = checkM "Email and password do not match." checkLogin
+validLogin = checkM "Email and password do not match." (\(LoginForm email pass) -> checkLogin email pass)
 
-checkLogin :: LoginForm -> GroceryServer Bool
-checkLogin (LoginForm email password) = do
+checkLogin :: String -> String -> GroceryServer Bool
+checkLogin email password = do
   user <- findByEmail $ Email email
   return $ case user of
     Just user -> verifyPassword (encodeUtf8 . pack $ password) (userPassword user)
@@ -102,7 +103,21 @@ loginRequiredSplice = do loginRequired <- lift . liftM (fromMaybe False . join .
                          if loginRequired
                            then runChildren
                            else return []
-                           
+                                
+flashMessagesSplice ::Splice GroceryServer
+flashMessagesSplice = do user     <- asks glsUser
+                         sessDb   <- asks glsSessions
+                         messages <- case user of 
+                           Just sess -> update' sessDb $ PopFlashMessages sess
+                           Nothing   -> return []
+                         liftIO $ putStrLn $ "Running flash message splice" ++ show messages
+                         runChildrenWith [ ("noMessages", runWhen $ null messages)
+                                         , ("messages",   runUnless' 
+                                                          (null messages)
+                                                          [("message", mapSplices renderMessage messages)])
+                                         ]
+  where renderMessage (FlashMessage msg) = runChildrenWithText [("msg", pack msg)]
+        
 isLoggedIn :: GroceryServer Bool
 isLoggedIn = fmap isJust (asks glsUser)
 
@@ -133,6 +148,6 @@ getUser' s sessServer server = do
           Update   -> updateSessionCookie uuid
           NoUpdate -> return ()
                     
-getUserFromSess :: AcidState (EventState GetUserDatabase) -> USession -> GroceryServer User
-getUserFromSess db sess = liftM (getOne . (@= sessUser sess)) (query' db GetUserDatabase) >>=
+getUserFromSess :: USession -> GroceryServer User
+getUserFromSess sess = liftM (getOne . (@= sessUser sess)) (doQuery GetUserDatabase) >>=
                           maybe (throwError "Session user non-existant") return

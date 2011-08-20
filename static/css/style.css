@@ -201,6 +201,15 @@ div.center-button {
     text-align: center;
 }
 
+/* button images */
+
+.button span img {
+    position: relative;
+    left: -1px;
+    top: -2px;
+}
+
+
 /* icons sprite users */
 a.uncheck-link, 
 a.check-link, 
@@ -210,6 +219,17 @@ ul.tag-list > li
  {
     background-image: url(../img/icons.png);
     background-size: 120px auto;
+}
+
+/* flash messages */
+
+#flash-messages > div.panel {
+    padding: 6px;
+    width: 310px;
+    margin: auto;
+    text-align: center;
+    font-style: italic;
+    font-size: 95%;
 }
 
 /* item list */

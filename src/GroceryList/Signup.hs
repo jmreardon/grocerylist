@@ -46,23 +46,36 @@ showSignupPage = asks glsTemplates >>= render' "signup" >>= ok . toResponse
 
 createAccount :: SignupForm -> GroceryServer (Maybe User)
 createAccount (SignupForm email password getEmails) = do
-  encodedPassword <- liftIO $ makePassword (encodeUtf8 . pack $ password) passwordStrengthSetting
+  encodedPassword <- liftIO $ generatePassword password
   db              <- asks glsDatabase
   update' db $ AddUser email encodedPassword getEmails
+  
+generatePassword :: String -> IO Password
+generatePassword password = makePassword (encodeUtf8 . pack $ password) passwordStrengthSetting
 
 signupFormSplice :: Splice GroceryServer
 signupFormSplice = formSplice signupForm "signup" Signup
 
 signupForm :: HappstackForm GroceryServer Html BlazeFormHtml SignupForm
 signupForm = SignupForm
-             <$> ((`validateMany` [verifyEmail, checkUniqueEmail]) $ label "Email" ++> inputEmail Nothing) <++ errors
-             <*> ((`transform` (Transformer $ return . Right . fst)) $ 
-                  (`validate` verifyPasswords) $ 
-                  (,)
-                  <$> label "Password" ++> inputPassword
-                  <*> label "Retype Password" ++> inputPassword
-                 ) <++ errors
-             <*> label "Receive announcement and update emails" ++> inputCheckBox False
+             <$> validateEmailForm Nothing
+             <*> validatePasswordForm
+             <*> announcementsForm False
+             
+             
+announcementsForm :: Bool -> HappstackForm GroceryServer Html BlazeFormHtml Bool
+announcementsForm value = label "Receive announcement and update emails" ++> inputCheckBox value
+             
+validateEmailForm :: Maybe String -> HappstackForm GroceryServer Html BlazeFormHtml String
+validateEmailForm value = ((`validateMany` [verifyEmail, checkUniqueEmail value]) $ label "Email" ++> inputEmail value) <++ errors
+             
+validatePasswordForm :: HappstackForm GroceryServer Html BlazeFormHtml String
+validatePasswordForm = ((`transform` (Transformer $ return . Right . fst)) $ 
+                        (`validate` verifyPasswords) $ 
+                        (,)
+                        <$> label "Password" ++> inputPassword
+                        <*> label "Retype Password" ++> inputPassword
+                       ) <++ errors
              
 verifyPasswords :: Validator GroceryServer Html (String , String)
 verifyPasswords = mconcat [ check "Password must be 6 or more characters long." $ (>= 6) . length . fst 
@@ -72,7 +85,12 @@ verifyPasswords = mconcat [ check "Password must be 6 or more characters long." 
 verifyEmail :: Validator GroceryServer Html String
 verifyEmail = check "Invalid email address." EValidate.isValid
 
-checkUniqueEmail :: Validator GroceryServer Html String
-checkUniqueEmail = checkM "Email address already in use." $ \email -> do 
-  user <- findByEmail $ Email email
-  return $ isNothing user
+checkUniqueEmail :: Maybe String -> Validator GroceryServer Html String
+checkUniqueEmail current = checkM "Email address already in use." $ 
+                           \email -> msum
+                                     [ case current of 
+                                          Just currEmail -> if email == currEmail then return True else mzero
+                                          Nothing        -> mzero
+                                     , do user <- findByEmail $ Email email
+                                          return $ (isNothing user)
+                                     ]

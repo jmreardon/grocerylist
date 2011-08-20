@@ -33,6 +33,13 @@
       <h1><a href="$(routeHome)" title="Home">Grocery List</a></h1>
       <navigation />
     </header>
+      <flashMessages>
+        <messages>
+          <div id="flash-messages">
+            <message><div class="panel flash"><msg /></div></message>
+          </div>
+        </messages>
+      </flashMessages>
     <content />
 
   </div>
