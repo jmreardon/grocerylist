@@ -75,7 +75,7 @@ showLoginPage = asks glsTemplates >>= render' "login" >>= ok . toResponse
 
 loginForm :: HappstackForm GroceryServer Html BlazeFormHtml LoginForm
 loginForm = (`validate` validLogin) $ (<++ errors) $ LoginForm 
-            <$> label "Email" ++> inputEmail Nothing
+            <$> label "Email" ++> inputText Nothing
             <*> label "Password" ++> inputPassword
             
 validLogin :: Validator GroceryServer Html LoginForm

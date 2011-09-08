@@ -67,7 +67,7 @@ announcementsForm :: Bool -> HappstackForm GroceryServer Html BlazeFormHtml Bool
 announcementsForm value = label "Receive announcement and update emails" ++> inputCheckBox value
              
 validateEmailForm :: Maybe String -> HappstackForm GroceryServer Html BlazeFormHtml String
-validateEmailForm value = ((`validateMany` [verifyEmail, checkUniqueEmail value]) $ label "Email" ++> inputEmail value) <++ errors
+validateEmailForm value = ((`validateMany` [verifyEmail, checkUniqueEmail value]) $ label "Email" ++> inputText value) <++ errors
              
 validatePasswordForm :: HappstackForm GroceryServer Html BlazeFormHtml String
 validatePasswordForm = ((`transform` (Transformer $ return . Right . fst)) $ 
